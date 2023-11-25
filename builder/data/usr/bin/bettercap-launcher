@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 source /usr/bin/pwnlib
 
+# read the mode flag before the pwnagotchi service deletes it
+is_auto_mode_no_delete
+manual_mode=$?
+
 # we need to decrypt something
 if is_crypted_mode; then
   while ! is_decrypted; do
@@ -26,7 +30,7 @@ else
   start_monitor_interface
 fi
 
-if is_auto_mode_no_delete; then
+if (( $manual_mode==0 )); then
   /usr/bin/bettercap -no-colors -caplet pwnagotchi-auto -iface mon0
 else
   /usr/bin/bettercap -no-colors -caplet pwnagotchi-manual -iface mon0
