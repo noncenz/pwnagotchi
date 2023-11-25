@@ -19,7 +19,7 @@ if ! check_brcm; then
 fi
 
 # start mon0
-if ! is_interface_up 'mon0'; then
+if ! ip link | grep -q "mon0"; then
   start_monitor_interface
 else
   stop_monitor_interface
